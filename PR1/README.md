@@ -1,9 +1,9 @@
 # Практична робота №1
 ## Тема: Перетворення дат, фільтрація та групування даних
 
-**Виконав:** [ВСТАВИТИ СВОЄ ПІБ]  
+**Виконав:** Голдовський Олександр Васильович  
 **Варіант:** 3  
-**Дата виконання:** [ВСТАВИТИ ДАТУ]
+**Дата виконання:** 09.05.2026
 
 ---
 
@@ -51,7 +51,7 @@ import pandas as pd
 df = pd.read_csv('sales_data_sample.csv', encoding='latin-1')
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу "Перші 5 рядків датасету" — виконай код і зроби Print Screen консолі -->
+<img width="1483" height="290" alt="image" src="https://github.com/user-attachments/assets/ae17262c-1aca-407a-879a-ef793960bcbe" />
 
 ---
 
@@ -63,7 +63,7 @@ df = pd.read_csv('sales_data_sample.csv', encoding='latin-1')
 df['ORDERDATE'] = pd.to_datetime(df['ORDERDATE'])
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу рядків "Тип колонки ORDERDATE до перетворення" і "після перетворення" -->
+<img width="546" height="239" alt="image" src="https://github.com/user-attachments/assets/c7494793-bb90-4578-ba1c-7596ff36ee51" />
 
 ---
 
@@ -76,7 +76,7 @@ selected_cities = ['Paris', 'Madrid']
 df_filtered = df[df['CITY'].isin(selected_cities)]
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу "Фільтрація: міста ['Paris', 'Madrid']" з кількістю рядків -->
+<img width="521" height="122" alt="image" src="https://github.com/user-attachments/assets/2174dfea-b4dc-4fa3-a314-418e8eaf15bd" />
 
 ---
 
@@ -89,7 +89,7 @@ df_filtered['month'] = df_filtered['ORDERDATE'].dt.to_period('M')
 monthly_avg = df_filtered.groupby('month')['SALES'].mean()
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу "Середній SALES по місяцях" з таблицею значень -->
+<img width="339" height="551" alt="image" src="https://github.com/user-attachments/assets/c505f402-badb-4634-bb45-72a05d636058" />
 
 ---
 
@@ -100,16 +100,71 @@ best_month = monthly_avg.idxmax()
 best_value = monthly_avg.max()
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу "Результат" — рядки з найкращим місяцем та значенням -->
+<img width="456" height="83" alt="image" src="https://github.com/user-attachments/assets/5ffac3f7-9263-436d-b166-d1b391ffc2e4" />
 
 ---
 
 ## 📊 Результат
 
-<!-- ВСТАВИТИ: перепиши сюди вручну результат з консолі, наприклад:
-Місяць з максимальним середнім продажем: 2003-11
-Середній SALES у цьому місяці: 5891.23
--->
+```
+=== Перші 5 рядків датасету ===
+   ORDERNUMBER  QUANTITYORDERED  PRICEEACH  ORDERLINENUMBER    SALES        ORDERDATE  ... POSTALCODE  COUNTRY  TERRITORY  CONTACTLASTNAME CONTACTFIRSTNAME  DEALSIZE
+0        10107               30      95.70                2  2871.00   2/24/2003 0:00  ...      10022      USA        NaN               Yu             Kwai     Small
+1        10121               34      81.35                5  2765.90    5/7/2003 0:00  ...      51100   France       EMEA          Henriot             Paul     Small
+2        10134               41      94.74                2  3884.34    7/1/2003 0:00  ...      75508   France       EMEA         Da Cunha           Daniel    Medium
+3        10145               45      83.26                6  3746.70   8/25/2003 0:00  ...      90003      USA        NaN            Young            Julie    Medium
+4        10159               49     100.00               14  5205.27  10/10/2003 0:00  ...        NaN      USA        NaN            Brown            Julie    Medium
+
+[5 rows x 25 columns]
+
+Розмір датасету: 2823 рядків, 25 колонок
+
+Тип колонки ORDERDATE до перетворення: str
+Тип колонки ORDERDATE після перетворення: datetime64[us]
+
+Приклад дат після перетворення:
+0   2003-02-24
+1   2003-05-07
+2   2003-07-01
+3   2003-08-25
+4   2003-10-10
+Name: ORDERDATE, dtype: datetime64[us]
+
+=== Фільтрація: міста ['Paris', 'Madrid'] ===
+Кількість рядків після фільтрації: 374
+Унікальні міста у відфільтрованих даних: <StringArray>
+['Paris', 'Madrid']
+Length: 2, dtype: str
+
+=== Середній SALES по місяцях ===
+month
+2003-01    3432.458462
+2003-04    3821.741000
+2003-05    3592.541765
+2003-06    3301.318333
+2003-07    3660.697143
+2003-09    3671.370769
+2003-10    2887.240000
+2003-11    3019.860667
+2003-12    3843.808750
+2004-01    3719.297105
+2004-03    7665.350000
+2004-04    3147.515556
+2004-05    3462.448000
+2004-06    3125.665625
+2004-10    3170.193636
+2004-11    4567.963500
+2004-12    3324.253600
+2005-02    3204.527073
+2005-03    3327.279655
+2005-04    4688.933333
+2005-05    5184.477391
+Freq: M
+
+=== Результат ===
+Місяць з максимальним середнім продажем: 2004-03
+Середній SALES у цьому місяці: 7665.35
+```
 
 ---
 
