@@ -7,7 +7,7 @@
 
 ---
 
-## 📋 Завдання
+## Завдання
 
 - Перетворити колонку `order_date` у формат `datetime`
 - Відфільтрувати дані тільки по 2 вибраних містах (варіант 3: **Paris** та **Madrid**)
@@ -16,7 +16,7 @@
 
 ---
 
-## 📦 Датасет
+## Датасет
 
 **Назва:** Sample Sales Data  
 **Джерело:** [Kaggle — kyanyoga/sample-sales-data](https://www.kaggle.com/datasets/kyanyoga/sample-sales-data)  
@@ -33,7 +33,7 @@
 
 ---
 
-## ⚙️ Використані бібліотеки
+## Використані бібліотеки
 
 ```python
 import pandas as pd
@@ -41,7 +41,7 @@ import pandas as pd
 
 ---
 
-## 🔍 Опис роботи програми
+## Опис роботи програми
 
 ### Крок 1 — Завантаження датасету
 
@@ -104,7 +104,7 @@ best_value = monthly_avg.max()
 
 ---
 
-## 📊 Результат
+## Результат
 
 ```
 === Перші 5 рядків датасету ===
@@ -168,7 +168,7 @@ Freq: M
 
 ---
 
-## 🛠️ Як запустити
+## Як запустити
 
 1. Завантажити датасет з [Kaggle](https://www.kaggle.com/datasets/kyanyoga/sample-sales-data) — файл `sales_data_sample.csv`
 2. Покласти файл `sales_data_sample.csv` у ту саму папку, що і `main.py`
