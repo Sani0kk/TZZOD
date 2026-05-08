@@ -54,7 +54,7 @@ df['district'] = district
 data = pd.concat(dfs, ignore_index=True)
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу з кількістю рядків, кількістю районів, їх переліком та часовим діапазоном -->
+<img width="769" height="89" alt="image" src="https://github.com/user-attachments/assets/8a88ba6e-2d9f-4f81-af08-ac6300157856" />
 
 ---
 
@@ -82,7 +82,7 @@ efficiency_score = mean_consumption / max_consumption
 results = [compute_district_stats(item) for item in district_groups]
 ```
 
-<!-- ВСТАВИТИ: скріншот рядка "Послідовна обробка завершена за: X.XXXX секунд" -->
+<img width="443" height="59" alt="image" src="https://github.com/user-attachments/assets/279debcf-07d7-403c-92bf-673c28f3f20c" />
 
 ---
 
@@ -95,7 +95,7 @@ with mp.Pool(processes=num_cores) as pool:
     results = pool.map(compute_district_stats, district_groups)
 ```
 
-<!-- ВСТАВИТИ: скріншот рядків "Доступно ядер CPU" і "Паралельна обробка завершена за: X.XXXX секунд" -->
+<img width="444" height="111" alt="image" src="https://github.com/user-attachments/assets/9d832ff5-ea38-46bb-a5de-806f121c56a0" />
 
 ---
 
@@ -111,7 +111,7 @@ speedup = seq_time / par_time
 efficiency = speedup / num_cores * 100
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу Speedup та Efficiency -->
+<img width="292" height="62" alt="image" src="https://github.com/user-attachments/assets/b9d2a729-1202-44f3-baea-3ecefbfe7ade" />
 
 ---
 
@@ -119,15 +119,13 @@ efficiency = speedup / num_cores * 100
 
 Підсумкова таблиця з усіма показниками по кожному району, відсортована за коефіцієнтом ефективності від найвищого до найнижчого.
 
-<!-- ВСТАВИТИ: скріншот таблиці "Оцінка ефективності використання енергії по районах" -->
-
-<!-- ВСТАВИТИ: скріншот рядків "Найефективніший район" та "Найменш ефективний район" -->
+<img width="574" height="342" alt="image" src="https://github.com/user-attachments/assets/03d2e95c-be67-4c38-bf0f-06f909e7c15f" />
 
 ---
 
 ## Результат
 
-<!-- ВСТАВИТИ: перепиши вручну підсумок — який район найефективніший, яке прискорення отримано, скільки секунд зайняла послідовна і паралельна обробка -->
+<img width="772" height="622" alt="image" src="https://github.com/user-attachments/assets/d434f33a-6c83-4397-aefd-ad08b71d05ca" />
 
 ---
 
