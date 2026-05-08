@@ -92,7 +92,7 @@ scaler = MinMaxScaler()
 train_scaled = scaler.fit_transform(df_train[['MW']]).flatten()
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу "Рядків завантажено", "Діапазон" і "Використовується останніх 5000 рядків" -->
+<img width="586" height="169" alt="image" src="https://github.com/user-attachments/assets/5672d3ac-3ea5-4538-a9ed-9ad24102bdcd" />
 
 ---
 
@@ -105,7 +105,7 @@ X_train, y_train = create_sequences(train_scaled, SEQUENCE_LEN)
 model = LSTMModel(hidden_size=64, num_layers=2)
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу епох LSTM (рядки "Epoch 5/20 — Loss: ..." і т.д.) -->
+<img width="315" height="128" alt="image" src="https://github.com/user-attachments/assets/24434064-6e6d-4d94-b6bb-f7b9552c21bf" />
 
 ---
 
@@ -113,7 +113,7 @@ model = LSTMModel(hidden_size=64, num_layers=2)
 
 ARIMA навчається на оригінальних (ненормалізованих) значеннях MW. Prophet отримує датафрейм з колонками `ds` (дата) та `y` (значення) і автоматично виявляє сезонні патерни.
 
-<!-- ВСТАВИТИ: скріншот рядків "ARIMA навчання завершено" і "Prophet навчання завершено" -->
+<img width="528" height="172" alt="image" src="https://github.com/user-attachments/assets/04d52545-bf79-41ae-8a6c-8a9f9cc6b897" />
 
 ---
 
@@ -125,7 +125,7 @@ ARIMA навчається на оригінальних (ненормалізо
 - **RMSE** (Root Mean Squared Error) — корінь з середньоквадратичної похибки
 - **MAPE** (Mean Absolute Percentage Error) — середня відсоткова похибка
 
-<!-- ВСТАВИТИ: скріншот блоку "Метрики точності" з рядками для LSTM, ARIMA, Prophet -->
+<img width="606" height="101" alt="image" src="https://github.com/user-attachments/assets/0b4a60c9-394e-49c8-b83a-9c51616f190e" />
 
 ---
 
@@ -136,13 +136,13 @@ ARIMA навчається на оригінальних (ненормалізо
 1. Лінійний графік прогнозу на 72 години — фактичні значення проти трьох моделей
 2. Стовпчаста діаграма порівняння MAE між моделями
 
-<!-- ВСТАВИТИ: скріншот або зображення файлу forecast_comparison.png -->
+<img width="2084" height="1476" alt="image" src="https://github.com/user-attachments/assets/1fb0a21a-5e7d-450e-a247-cc1680fd26ae" />
 
 ---
 
 ## Результат
 
-<!-- ВСТАВИТИ: перепиши вручну рядок "Найточніша модель за MAE: ..." та значення метрик для кожної моделі -->
+<img width="645" height="757" alt="image" src="https://github.com/user-attachments/assets/d5ae684e-5a25-40c1-8f99-7595746149c9" />
 
 ---
 
