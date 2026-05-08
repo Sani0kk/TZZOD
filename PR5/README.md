@@ -97,7 +97,7 @@ x_scaled = (x - median) / IQR
 df_raw = pd.read_csv(filepath, nrows=500000)
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу "Розмір датасету", "Колонки" і "Числові колонки" -->
+<img width="1359" height="132" alt="image" src="https://github.com/user-attachments/assets/303daf1e-7f11-4ed8-87e9-4ed966bda268" />
 
 ---
 
@@ -112,7 +112,7 @@ df_clean = df_clean[
 ]
 ```
 
-<!-- ВСТАВИТИ: скріншот рядка "Після очищення: XXXXX рядків" -->
+<img width="287" height="46" alt="image" src="https://github.com/user-attachments/assets/3553425c-a35b-499a-8978-6f8ac4d34584" />
 
 ---
 
@@ -120,7 +120,7 @@ df_clean = df_clean[
 
 Виводиться таблиця `describe()` для оригінальних числових колонок — видно що масштаби колонок дуже різні (fare: десятки, координати: десяткові дроби від -74 до 40).
 
-<!-- ВСТАВИТИ: скріншот блоку "--- Оригінальні дані ---" з таблицею describe -->
+<img width="995" height="233" alt="image" src="https://github.com/user-attachments/assets/7e424b1a-16a4-4b87-9efd-97b8a1681629" />
 
 ---
 
@@ -134,11 +134,7 @@ df_zscore, scaler_std = standardize_zscore(df_clean[target_cols])
 df_robust, scaler_rob = scale_robust(df_clean[target_cols])
 ```
 
-<!-- ВСТАВИТИ: скріншот блоку "--- Min-Max нормалізація [0, 1] ---" з таблицею describe -->
-
-<!-- ВСТАВИТИ: скріншот блоку "--- Z-score стандартизація ---" з таблицею describe -->
-
-<!-- ВСТАВИТИ: скріншот блоку "--- Robust Scaler ---" з таблицею describe -->
+<img width="1004" height="722" alt="image" src="https://github.com/user-attachments/assets/975237b0-6725-4b77-8b35-c4542f72aab0" />
 
 ---
 
@@ -146,7 +142,7 @@ df_robust, scaler_rob = scale_robust(df_clean[target_cols])
 
 Виводяться збережені параметри кожного scaler — мінімум/максимум для Min-Max, середнє/std для Z-score.
 
-<!-- ВСТАВИТИ: скріншот блоку "=== Параметри масштабування ===" -->
+<img width="1614" height="342" alt="image" src="https://github.com/user-attachments/assets/99b1ed4f-01d6-4b5a-a809-0b6029fccf7c" />
 
 ---
 
@@ -154,13 +150,81 @@ df_robust, scaler_rob = scale_robust(df_clean[target_cols])
 
 Гістограми розподілу трьох колонок (`fare_amount`, `pickup_longitude`, `pickup_latitude`) до і після кожного з трьох методів масштабування. Форма розподілу не змінюється — змінюється лише діапазон значень на осі X.
 
-<!-- ВСТАВИТИ: зображення файлу scaling_comparison.png -->
+<img width="2685" height="1329" alt="image" src="https://github.com/user-attachments/assets/733aaf0e-6f0a-451c-83f9-5f7457de5acb" />
 
 ---
 
 ## Результат
 
-<!-- ВСТАВИТИ: перепиши вручну ключові спостереження — наприклад діапазон після Min-Max, середнє після Z-score -->
+```
+Завантаження даних (500 000 рядків)...
+Розмір датасету: 500000 рядків, 8 колонок
+Колонки: ['key', 'fare_amount', 'pickup_datetime', 'pickup_longitude', 'pickup_latitude', 'dropoff_longitude', 'dropoff_latitude', 'passenger_count']
+
+Числові колонки: ['fare_amount', 'pickup_longitude', 'pickup_latitude', 'dropoff_longitude', 'dropoff_latitude', 'passenger_count']
+
+Після очищення: 488303 рядків
+
+--- Оригінальні дані ---
+       fare_amount  pickup_longitude  pickup_latitude  dropoff_longitude  dropoff_latitude  passenger_count
+count  488303.0000       488303.0000      488303.0000        488303.0000       488303.0000      488303.0000
+mean       11.3556          -73.9751          40.7510           -73.9099           40.7182           1.6901
+std         9.8503            0.0393           0.0301             3.3382            1.5027           1.3063
+min         0.0100          -74.9681          40.0527         -1329.6213           -2.2697           1.0000
+25%         6.0000          -73.9923          40.7365           -73.9916           40.7355           1.0000
+50%         8.5000          -73.9821          40.7534           -73.9806           40.7538           1.0000
+75%        12.5000          -73.9683          40.7675           -73.9652           40.7684           2.0000
+max       495.0000          -72.7029          41.8003             0.0000          404.6167           6.0000
+
+--- Min-Max нормалізація [0, 1] ---
+       fare_amount  pickup_longitude  pickup_latitude  dropoff_longitude  dropoff_latitude  passenger_count
+count  488303.0000       488303.0000      488303.0000        488303.0000       488303.0000      488303.0000
+mean        0.0229            0.4384           0.3996             0.9444            0.1057           0.1380
+std         0.0199            0.0173           0.0172             0.0025            0.0037           0.2613
+min         0.0000            0.0000           0.0000             0.0000            0.0000           0.0000
+25%         0.0121            0.4308           0.3913             0.9444            0.1057           0.0000
+50%         0.0172            0.4353           0.4009             0.9444            0.1057           0.0000
+75%         0.0252            0.4414           0.4090             0.9444            0.1058           0.2000
+max         1.0000            1.0000           1.0000             1.0000            1.0000           1.0000
+
+--- Z-score стандартизація (μ=0, σ=1) ---
+       fare_amount  pickup_longitude  pickup_latitude  dropoff_longitude  dropoff_latitude  passenger_count
+count  488303.0000       488303.0000      488303.0000        488303.0000       488303.0000      488303.0000
+mean       -0.0000            0.0000          -0.0000            -0.0000           -0.0000          -0.0000
+std         1.0000            1.0000           1.0000             1.0000            1.0000           1.0000
+min        -1.1518          -25.2903         -23.1876          -376.1666          -28.6069          -0.5283
+25%        -0.5437           -0.4359          -0.4804            -0.0245            0.0115          -0.5283
+50%        -0.2899           -0.1765           0.0787            -0.0212            0.0237          -0.5283
+75%         0.1162            0.1738           0.5468            -0.0166            0.0334           0.2372
+max        49.0995           32.4033          34.8412            22.1408          242.1608           3.2994
+
+--- Robust Scaler (медіана=0) ---
+       fare_amount  pickup_longitude  pickup_latitude  dropoff_longitude  dropoff_latitude  passenger_count
+count  488303.0000       488303.0000      488303.0000        488303.0000       488303.0000      488303.0000
+mean        0.4393            0.2894          -0.0766             2.6781           -1.0830           0.6901
+std         1.5154            1.6402           0.9735           126.5374           45.7100           1.3063
+min        -1.3062          -41.1907         -22.6497        -47596.4054        -1308.7012           0.0000
+25%        -0.3846           -0.4255          -0.5443            -0.4169           -0.5572           0.0000
+50%         0.0000            0.0000           0.0000             0.0000            0.0000           0.0000
+75%         0.6154            0.5745           0.4557             0.5831            0.4428           1.0000
+max        74.8462           53.4361          33.8411          2804.3122        11068.0705           5.0000
+
+=== Параметри масштабування ===
+
+Min-Max — мінімальні значення за колонками:
+{'fare_amount': np.float64(0.01), 'pickup_longitude': np.float64(-74.9681), 'pickup_latitude': np.float64(40.0527), 'dropoff_longitude': np.float64(-1329.6213), 'dropoff_latitude': np.float64(-2.2697), 'passenger_count': np.float64(1.0)}
+Min-Max — максимальні значення за колонками:
+{'fare_amount': np.float64(495.0), 'pickup_longitude': np.float64(-72.7029), 'pickup_latitude': np.float64(41.8003), 'dropoff_longitude': np.float64(0.0), 'dropoff_latitude': np.float64(404.6167), 'passenger_count': np.float64(6.0)}
+
+Z-score — середні значення (mean):
+{'fare_amount': np.float64(11.3556), 'pickup_longitude': np.float64(-73.9751), 'pickup_latitude': np.float64(40.751), 'dropoff_longitude': np.float64(-73.9099), 'dropoff_latitude': np.float64(40.7182), 'passenger_count': np.float64(1.6901)}
+Z-score — стандартні відхилення (std):
+{'fare_amount': np.float64(9.8503), 'pickup_longitude': np.float64(0.0393), 'pickup_latitude': np.float64(0.0301), 'dropoff_longitude': np.float64(3.3382), 'dropoff_latitude': np.float64(1.5027), 'passenger_count': np.float64(1.3063)}
+
+Побудова графіку...
+
+Графік збережено: scaling_comparison.png
+```
 
 ---
 
