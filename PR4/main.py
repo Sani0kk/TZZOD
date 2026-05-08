@@ -58,14 +58,11 @@ class LSTMModel(nn.Module):
 def train_lstm(X_train, y_train):
     X_tensor = torch.tensor(X_train, dtype=torch.float32).unsqueeze(-1)
     y_tensor = torch.tensor(y_train, dtype=torch.float32).unsqueeze(-1)
-
     dataset = TensorDataset(X_tensor, y_tensor)
     loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=False)
-
     model = LSTMModel(hidden_size=HIDDEN_SIZE, num_layers=NUM_LAYERS)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     criterion = nn.MSELoss()
-
     model.train()
     for epoch in range(EPOCHS):
         total_loss = 0
@@ -78,40 +75,7 @@ def train_lstm(X_train, y_train):
             total_loss += loss.item()
         if (epoch + 1) % 5 == 0:
             print(f"  Epoch {epoch+1}/{EPOCHS} — Loss: {total_loss/len(loader):.6f}")
-
     return model
-
-
-def predict_lstm(model, X_test):
-    model.eval()
-    X_tensor = torch.tensor(X_test, dtype=torch.float32).unsqueeze(-1)
-    with torch.no_grad():
-        preds = model(X_tensor).squeeze().numpy()
-    return preds
-
-
-def train_arima(train_series):
-    model = ARIMA(train_series, order=(2, 1, 2))
-    fitted = model.fit()
-    return fitted
-
-
-def predict_arima(fitted_model, steps):
-    forecast = fitted_model.forecast(steps=steps)
-    return forecast.values
-
-
-def train_prophet(df_train):
-    df_prophet = df_train.rename(columns={'Datetime': 'ds', 'MW': 'y'})
-    model = Prophet(daily_seasonality=True, weekly_seasonality=True, yearly_seasonality=True)
-    model.fit(df_prophet)
-    return model
-
-
-def predict_prophet(model, future_dates):
-    future_df = pd.DataFrame({'ds': future_dates})
-    forecast = model.predict(future_df)
-    return forecast['yhat'].values
 
 
 def compute_metrics(actual, predicted, name):
@@ -120,51 +84,6 @@ def compute_metrics(actual, predicted, name):
     mape = np.mean(np.abs((actual - predicted) / (actual + 1e-8))) * 100
     print(f"  {name:<8} — MAE: {mae:.2f} MW | RMSE: {rmse:.2f} MW | MAPE: {mape:.2f}%")
     return {'model': name, 'MAE': round(mae, 2), 'RMSE': round(rmse, 2), 'MAPE': round(mape, 2)}
-
-
-def plot_results(df_test, lstm_pred, arima_pred, prophet_pred, scaler):
-    actual = scaler.inverse_transform(df_test[['MW']].values).flatten()
-    lstm_inv = scaler.inverse_transform(lstm_pred.reshape(-1, 1)).flatten()
-
-    fig, axes = plt.subplots(2, 1, figsize=(14, 10))
-    fig.suptitle('Прогнозування енергоспоживання: LSTM vs ARIMA vs Prophet', fontsize=14, fontweight='bold')
-
-    dates = df_test['Datetime'].values[:FORECAST_STEPS]
-
-    ax1 = axes[0]
-    ax1.plot(dates, actual[:FORECAST_STEPS], label='Фактичне', color='black', linewidth=1.5)
-    ax1.plot(dates, lstm_inv[:FORECAST_STEPS], label='LSTM', color='royalblue', linewidth=1.2, linestyle='--')
-    ax1.plot(dates, arima_pred[:FORECAST_STEPS], label='ARIMA', color='tomato', linewidth=1.2, linestyle='-.')
-    ax1.plot(dates, prophet_pred[:FORECAST_STEPS], label='Prophet', color='seagreen', linewidth=1.2, linestyle=':')
-    ax1.set_title('Прогноз на 72 години вперед')
-    ax1.set_ylabel('Енергоспоживання (MW)')
-    ax1.legend()
-    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d %H:%M'))
-    ax1.tick_params(axis='x', rotation=30)
-    ax1.grid(alpha=0.3)
-
-    metrics_data = {
-        'Модель': ['LSTM', 'ARIMA', 'Prophet'],
-        'MAE (MW)': [
-            mean_absolute_error(actual[:FORECAST_STEPS], lstm_inv[:FORECAST_STEPS]),
-            mean_absolute_error(actual[:FORECAST_STEPS], arima_pred[:FORECAST_STEPS]),
-            mean_absolute_error(actual[:FORECAST_STEPS], prophet_pred[:FORECAST_STEPS]),
-        ]
-    }
-    ax2 = axes[1]
-    colors = ['royalblue', 'tomato', 'seagreen']
-    bars = ax2.bar(metrics_data['Модель'], metrics_data['MAE (MW)'], color=colors, width=0.4)
-    for bar, val in zip(bars, metrics_data['MAE (MW)']):
-        ax2.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 5,
-                 f'{val:.1f}', ha='center', va='bottom', fontweight='bold')
-    ax2.set_title('Порівняння точності моделей (MAE — менше = краще)')
-    ax2.set_ylabel('MAE (MW)')
-    ax2.grid(axis='y', alpha=0.3)
-
-    plt.tight_layout()
-    plt.savefig('forecast_comparison.png', dpi=150, bbox_inches='tight')
-    plt.show()
-    print("\nГрафік збережено: forecast_comparison.png")
 
 
 if __name__ == '__main__':
@@ -177,51 +96,101 @@ if __name__ == '__main__':
     print(f"Використовується останніх {len(df_sample)} рядків для прискорення навчання\n")
 
     split = int(len(df_sample) * TRAIN_RATIO)
-    df_train = df_sample.iloc[:split]
-    df_test = df_sample.iloc[split:]
+    df_train = df_sample.iloc[:split].reset_index(drop=True)
+    df_test  = df_sample.iloc[split:].reset_index(drop=True)
 
-    scaler = MinMaxScaler()
-    train_scaled = scaler.fit_transform(df_train[['MW']]).flatten()
-    test_scaled = scaler.transform(df_test[['MW']]).flatten()
+    print(f"Тренувальна вибірка: {len(df_train)} рядків")
+    print(f"Тестова вибірка:     {len(df_test)} рядків\n")
 
     print("=== LSTM (PyTorch) ===")
+    scaler = MinMaxScaler()
+    train_scaled = scaler.fit_transform(df_train[['MW']]).flatten()
+    test_scaled  = scaler.transform(df_test[['MW']]).flatten()
+
+    all_scaled = np.concatenate([train_scaled, test_scaled])
     X_train, y_train = create_sequences(train_scaled, SEQUENCE_LEN)
-    X_test, y_test = create_sequences(test_scaled, SEQUENCE_LEN)
+
+    X_test_seq = []
+    for i in range(len(test_scaled)):
+        seq = all_scaled[split - SEQUENCE_LEN + i : split + i]
+        if len(seq) < SEQUENCE_LEN:
+            seq = np.pad(seq, (SEQUENCE_LEN - len(seq), 0), mode='edge')
+        X_test_seq.append(seq)
+    X_test_seq = np.array(X_test_seq)
+
     lstm_model = train_lstm(X_train, y_train)
-    lstm_preds_scaled = predict_lstm(lstm_model, X_test)
+
+    lstm_model.eval()
+    X_tensor = torch.tensor(X_test_seq, dtype=torch.float32).unsqueeze(-1)
+    with torch.no_grad():
+        lstm_preds_scaled = lstm_model(X_tensor).squeeze().numpy()
+
+    lstm_preds_mw = scaler.inverse_transform(lstm_preds_scaled.reshape(-1, 1)).flatten()
+    actual_mw = df_test['MW'].values
 
     print("\n=== ARIMA ===")
-    arima_train = df_train['MW'].values
-    arima_fitted = train_arima(arima_train)
-    arima_preds = predict_arima(arima_fitted, steps=len(df_test))
+    arima_model = ARIMA(df_train['MW'].values, order=(2, 1, 2))
+    arima_fitted = arima_model.fit()
+    arima_preds_mw = np.array(arima_fitted.forecast(steps=len(df_test)))
     print("  ARIMA навчання завершено")
 
     print("\n=== Prophet ===")
-    prophet_model = train_prophet(df_train)
-    future_dates = df_test['Datetime'].values
-    prophet_preds = predict_prophet(prophet_model, future_dates)
+    df_prophet_train = df_train.rename(columns={'Datetime': 'ds', 'MW': 'y'})
+    prophet_model = Prophet(daily_seasonality=True, weekly_seasonality=True, yearly_seasonality=True)
+    prophet_model.fit(df_prophet_train)
+    future_df = pd.DataFrame({'ds': df_test['Datetime'].values})
+    prophet_forecast = prophet_model.predict(future_df)
+    prophet_preds_mw = prophet_forecast['yhat'].values
     print("  Prophet навчання завершено")
 
+    n = min(len(actual_mw), len(lstm_preds_mw), len(arima_preds_mw), len(prophet_preds_mw))
+    actual_mw        = actual_mw[:n]
+    lstm_preds_mw    = lstm_preds_mw[:n]
+    arima_preds_mw   = arima_preds_mw[:n]
+    prophet_preds_mw = prophet_preds_mw[:n]
+
     print("\n=== Метрики точності (на тестовій вибірці) ===")
-    actual_test = scaler.inverse_transform(test_scaled[SEQUENCE_LEN:].reshape(-1, 1)).flatten()
-    lstm_inv = scaler.inverse_transform(lstm_preds_scaled.reshape(-1, 1)).flatten()
-    arima_aligned = arima_preds[SEQUENCE_LEN:]
-    prophet_aligned = prophet_preds[SEQUENCE_LEN:]
-
-    n = min(len(actual_test), len(arima_aligned), len(prophet_aligned), len(lstm_inv))
-    actual_test = actual_test[:n]
-    lstm_inv = lstm_inv[:n]
-    arima_aligned = arima_aligned[:n]
-    prophet_aligned = prophet_aligned[:n]
-
     metrics = []
-    metrics.append(compute_metrics(actual_test, lstm_inv, 'LSTM'))
-    metrics.append(compute_metrics(actual_test, arima_aligned, 'ARIMA'))
-    metrics.append(compute_metrics(actual_test, prophet_aligned, 'Prophet'))
+    metrics.append(compute_metrics(actual_mw, lstm_preds_mw,    'LSTM'))
+    metrics.append(compute_metrics(actual_mw, arima_preds_mw,   'ARIMA'))
+    metrics.append(compute_metrics(actual_mw, prophet_preds_mw, 'Prophet'))
 
     metrics_df = pd.DataFrame(metrics)
     best_model = metrics_df.loc[metrics_df['MAE'].idxmin(), 'model']
     print(f"\nНайточніша модель за MAE: {best_model}")
 
     print("\nПобудова графіку...")
-    plot_results(df_test.reset_index(drop=True), lstm_preds_scaled, arima_aligned, prophet_aligned, scaler)
+    n_plot = min(FORECAST_STEPS, n)
+    dates  = df_test['Datetime'].values[:n_plot]
+
+    fig, axes = plt.subplots(2, 1, figsize=(14, 10))
+    fig.suptitle('Прогнозування енергоспоживання: LSTM vs ARIMA vs Prophet', fontsize=14, fontweight='bold')
+
+    ax1 = axes[0]
+    ax1.plot(dates, actual_mw[:n_plot],        label='Фактичне', color='black',     linewidth=2.0)
+    ax1.plot(dates, lstm_preds_mw[:n_plot],    label='LSTM',     color='royalblue', linewidth=1.4, linestyle='--')
+    ax1.plot(dates, arima_preds_mw[:n_plot],   label='ARIMA',    color='tomato',    linewidth=1.4, linestyle='-.')
+    ax1.plot(dates, prophet_preds_mw[:n_plot], label='Prophet',  color='seagreen',  linewidth=1.4, linestyle=':')
+    ax1.set_title('Прогноз на 72 години вперед')
+    ax1.set_ylabel('Енергоспоживання (MW)')
+    ax1.legend()
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d %H:%M'))
+    ax1.tick_params(axis='x', rotation=30)
+    ax1.grid(alpha=0.3)
+
+    ax2 = axes[1]
+    model_names = [m['model'] for m in metrics]
+    mae_values  = [m['MAE']   for m in metrics]
+    colors = ['royalblue', 'tomato', 'seagreen']
+    bars = ax2.bar(model_names, mae_values, color=colors, width=0.4)
+    for bar, val in zip(bars, mae_values):
+        ax2.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 1,
+                 f'{val:.1f}', ha='center', va='bottom', fontweight='bold')
+    ax2.set_title('Порівняння точності моделей (MAE — менше = краще)')
+    ax2.set_ylabel('MAE (MW)')
+    ax2.grid(axis='y', alpha=0.3)
+
+    plt.tight_layout()
+    plt.savefig('forecast_comparison.png', dpi=150, bbox_inches='tight')
+    plt.show()
+    print("Графік збережено: forecast_comparison.png")
