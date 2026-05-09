@@ -128,7 +128,8 @@ pip install pandas numpy matplotlib scikit-learn
 Зберегти очищений датасет у CSV? [y/n, default=y]: y
 ```
 
-<!-- ВСТАВИТИ: скріншот повного виводу терміналу для цього запиту -->
+<img width="614" height="573" alt="image" src="https://github.com/user-attachments/assets/151c7ffb-a04f-4a1a-95cc-6bd73379a96d" />
+<img width="2084" height="2357" alt="image" src="https://github.com/user-attachments/assets/a5979473-7cdd-4355-b277-58dc9ad756c5" />
 
 ### Тестовий запит 2 — менше даних, висока чутливість
 
@@ -139,7 +140,8 @@ pip install pandas numpy matplotlib scikit-learn
 Зберегти очищений датасет у CSV? [y/n, default=y]: n
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу (особливо блок МЕТРИКИ та РІШЕННЯ) -->
+<img width="553" height="525" alt="image" src="https://github.com/user-attachments/assets/0734200e-ebe1-466e-9637-5ddba7ef6943" />
+<img width="2084" height="2357" alt="image" src="https://github.com/user-attachments/assets/98b48beb-269d-4ec5-b408-64ffb9b67713" />
 
 ### Тестовий запит 3 — низька чутливість
 
@@ -150,7 +152,8 @@ pip install pandas numpy matplotlib scikit-learn
 Зберегти очищений датасет у CSV? [y/n, default=y]: y
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу з іншими значеннями метрик порівняно з запитом 1 -->
+<img width="570" height="572" alt="image" src="https://github.com/user-attachments/assets/c779c50c-ca6f-4281-bf48-6ecc962b5a5b" />
+<img width="2084" height="2357" alt="image" src="https://github.com/user-attachments/assets/13af0b70-a503-4c2e-b00a-70ddb7885838" />
 
 ---
 
@@ -158,35 +161,31 @@ pip install pandas numpy matplotlib scikit-learn
 
 ### Крок 1 — Завантаження даних
 
-<!-- ВСТАВИТИ: скріншот виводу блоку "КРОК 1: СПРИЙНЯТТЯ ДАНИХ" -->
+<img width="654" height="182" alt="image" src="https://github.com/user-attachments/assets/fc256584-fe32-4d71-9f1f-f573d3b93452" />
 
 ### Крок 2 — Симуляція проблем
 
-<!-- ВСТАВИТИ: скріншот виводу блоку "КРОК 2: СИМУЛЯЦІЯ ПРОБЛЕМ" -->
+<img width="680" height="150" alt="image" src="https://github.com/user-attachments/assets/dfaa63f6-5285-400b-a06d-35fafd19708d" />
 
 ### Крок 3 — Діагностика та рішення агента
 
-<!-- ВСТАВИТИ: скріншот виводу блоку "КРОК 3: ДІАГНОСТИКА" разом з блоком "АГЕНТ ПРИЙМАЄ РІШЕННЯ" -->
+<img width="890" height="300" alt="image" src="https://github.com/user-attachments/assets/7afa890e-a148-44c0-b9e1-6c6af42ab56e" />
 
 ### Кроки 4–7 — Pipeline очищення
 
-<!-- ВСТАВИТИ: скріншот виводу кроків 4, 5, 6, 7 одним великим скріншотом -->
-
-### Крок 8 — Масштабування (якщо застосоване)
-
-<!-- ВСТАВИТИ: скріншот виводу "КРОК 8: ROBUST МАСШТАБУВАННЯ" (або пропустити якщо агент вирішив не застосовувати) -->
+<img width="1019" height="613" alt="image" src="https://github.com/user-attachments/assets/74a44efa-c75e-4543-bb1b-0e963b752313" />
 
 ### Крок 9 — Метрики якості
 
-<!-- ВСТАВИТИ: скріншот виводу "КРОК 9: МЕТРИКИ ЯКОСТІ АГЕНТА" -->
+<img width="586" height="194" alt="image" src="https://github.com/user-attachments/assets/5f395f0c-0f08-4d05-adf9-ad259c468f48" />
 
 ### Крок 10 — Візуалізація
 
-<!-- ВСТАВИТИ: зображення файлу cleaning_result.png -->
+<img width="518" height="97" alt="image" src="https://github.com/user-attachments/assets/6dc819e3-cfb3-4e2f-b6fa-79227fd78f55" />
 
 ### Підсумковий звіт
 
-<!-- ВСТАВИТИ: скріншот виводу "ПІДСУМКОВИЙ ЗВІТ АГЕНТА" з рішеннями та метриками -->
+<img width="541" height="530" alt="image" src="https://github.com/user-attachments/assets/662a5cb5-933d-41b6-b286-b8f5c27ec65e" />
 
 ---
 
