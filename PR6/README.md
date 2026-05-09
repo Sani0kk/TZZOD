@@ -29,7 +29,7 @@
 | Постукування | `Acceleration_with_g_2026-05-09_03-00-56.zip` | Легкі постукування по матрацу поруч з телефоном |
 | Інтенсивне натискання | `Acceleration_with_g_2026-05-09_03-01-49.zip` | Інтенсивне натискання на матрац навколо телефону |
 
-<!-- ВСТАВИТИ: скріншот екрану телефону з додатком Phyphox під час одного із записів -->
+<img width="1177" height="2560" alt="image" src="https://github.com/user-attachments/assets/facdcb1d-e045-4420-8810-3087c2c3e29f" />
 
 ---
 
@@ -75,7 +75,7 @@ with zipfile.ZipFile(filepath, 'r') as z:
         df = pd.read_csv(f)
 ```
 
-<!-- ВСТАВИТИ: скріншот виводу з кількістю рядків і тривалістю кожного запису -->
+<img width="640" height="78" alt="image" src="https://github.com/user-attachments/assets/4fcd5599-25cf-40d9-8962-a1cb53e41aeb" />
 
 ---
 
@@ -87,9 +87,7 @@ with zipfile.ZipFile(filepath, 'r') as z:
 - **Стандартне відхилення** — типова девіація від середнього значення
 - **RMS** — ефективне значення прискорення, стандартний показник вібрацій
 
-<!-- ВСТАВИТИ: скріншот блоку "=== Статистика амплітудних коливань ===" з усіма трьома режимами -->
-
-<!-- ВСТАВИТИ: скріншот рядків "=== Висновок ===" -->
+<img width="755" height="659" alt="image" src="https://github.com/user-attachments/assets/3680bc68-e03e-402a-acb3-60cab26ea252" />
 
 ---
 
@@ -97,7 +95,7 @@ with zipfile.ZipFile(filepath, 'r') as z:
 
 Графік магнітуди прискорення у часі для кожного режиму. Червона пунктирна лінія — середнє значення. Дозволяє побачити характер, частоту та інтенсивність коливань.
 
-<!-- ВСТАВИТИ: зображення файлу time_series.png -->
+<img width="2084" height="1769" alt="image" src="https://github.com/user-attachments/assets/5e22ec1d-4a54-4b2d-bc3f-0a7de08ba057" />
 
 ---
 
@@ -105,7 +103,7 @@ with zipfile.ZipFile(filepath, 'r') as z:
 
 Стовпчасті діаграми трьох показників: амплітуда peak-to-peak, стандартне відхилення та RMS по кожному режиму. Більше значення відповідає вищій інтенсивності вібрацій.
 
-<!-- ВСТАВИТИ: зображення файлу amplitude_comparison.png -->
+<img width="2221" height="742" alt="image" src="https://github.com/user-attachments/assets/9d097164-032f-4207-b828-ad4f4571ba1b" />
 
 ---
 
@@ -113,16 +111,13 @@ with zipfile.ZipFile(filepath, 'r') as z:
 
 Гістограми розподілу магнітуди для кожного режиму. Вужчий та вищий розподіл відповідає стабільнішому стану, ширший — більшим коливанням.
 
-<!-- ВСТАВИТИ: зображення файлу distribution.png -->
+<img width="2234" height="594" alt="image" src="https://github.com/user-attachments/assets/2eb39b1d-eb8a-4685-9117-03ff6460e791" />
 
 ---
 
 ## Результат
 
-<!-- ВСТАВИТИ: перепиши вручну рядки з висновку, наприклад:
-Найменші вібрації: Спокій (амплітуда X.XXX м/с²)
-Найбільші вібрації: Інтенсивне натискання (амплітуда X.XXX м/с²)
--->
+<img width="744" height="842" alt="image" src="https://github.com/user-attachments/assets/19df42f8-c9aa-48ef-bc91-8b24b6a61d56" />
 
 ---
 
